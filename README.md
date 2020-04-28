@@ -69,38 +69,38 @@ By deafult Apache Jmeter don't include JDBC driver to connect to Azure Synapse D
         2) Unzip and copy **smssql-jdbc-8.2.2.jre13.jar** file 
         3) Paste mssql-jdbc-8.2.2.jre13.jar file under \apache-jmeter-5.2.1\lib\
 
-![JDBC_Lib_File](\Images\SQLJDBCDriver.jpg)
+![JDBC_Lib_File](/images/SQLJDBCDriver.jpg)
 
 ## Build Java Management Extension (aka jmx) file
 
     1) Open Apache Jmeter UI by clicking jmeter.bat under \apache-jmeter-5.2.1\bin\
 
-![AJmeter](\Images\JmeterBatch.jpg)
+![AJmeter](/images/JmeterBatch.jpg)
 
     2) Click **Add** -> **Threads (Users)** -> **Thread Group**
 
-![AddThread](\Images\AMeterAddThread.jpg)
+![AddThread](/images/AMeterAddThread.jpg)
 
     3) Provide **Number of Threads (users)** . Add number of users you are expecting in future. Provide **Ramp-up period (seconds)** menaing how much time Apache jmeter takes to spin up number of threads(user).  Also, provide **Loop Count** define number of times test repeat.   
 
-![JDBC_Thread](\Images\JDBCThreadConfigured.jpg)
+![JDBC_Thread](/images/JDBCThreadConfigured.jpg)
 
 
     4) Add JDBC connection. Click **Add** -> **Config Element** -> **JDBC Connection Configuration. 
 
-![JDBC_Connection](\Images\AmeterConnection.jpg)
+![JDBC_Connection](/images/AmeterConnection.jpg)
 
     5) Add Azure Synapse Data warehouse connection value. Provide **Variable Name for created pool** which we created in earlier step. Provide Data warehouse connection value in **Database Connection Configuration** 
 
-![JDBC_Conn_Added](\Images\JDBCConnection.jpg)
+![JDBC_Conn_Added](/images/JDBCConnection.jpg)
 
     6) Create JDBC request. Righ click on thread group. Click **Add** -> **Sampler** -> **JDBC Request**. Provide **Variable Name of Pool declared...** name created in earlier step. Provide **SQL Query** to be execute against data warehouse.
 
-![JDBC_request](\Images\JDBCRequest.jpg)
+![JDBC_request](/images/JDBCRequest.jpg)
 
     7) Create report for each request execution. Let's add **View Results Tree**
 
-![Add_report](\Images\AddResult.jpg)
+![Add_report](/images/AddResult.jpg)
 
     8) Create multiple JDBC request (with different queries). A sample jmx file is located at \Scripts\SampleLoadDef.jmx. Also sql query are located at \Scripts\SampleQuery.txt 
 
@@ -110,15 +110,15 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
     1) Create Azure blob storage and three container under it. **1) AJmeter** to store Apache Jmeter package. **2) loadtestdef** to store script file and **3) scripts**.
 
-![Storage](\images\StorageContainer.jpg)
+![Storage](/images/StorageContainer.jpg)
 
     2) AJmeter:- Use [azcopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to move Apache Jmeter from local drive to Azure blob storage. 
 
-![Jmeter_Storage](\images\StorageAJmeter.jpg)
+![Jmeter_Storage](/images/StorageAJmeter.jpg)
 
     3) Copy jmx files created in earlier steps under **loadtestdef** container.
 
-![JmxStorage](\images\JMXStorage.jpg)
+![JmxStorage](/images/JMXStorage.jpg)
 
 *Note:- Using two load test script which will be executed from East US and West US
 
@@ -162,7 +162,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
             azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/WestLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;  
 
         ```
-![Scripts_storage](\images\Script_Storage.jpg)
+![Scripts_storage](/images/Script_Storage.jpg)
 
 ## Execute work load
 
@@ -241,31 +241,31 @@ Below is the extract from **.\ClientSide_Scripts\ExecuteScriptMain.ps1** file.
     ```
 Once Azure VM is setup and software is configured. Below is the screenshot of files copied.
 
-![File_Copied](.\images\fileCopied.jpg)
+![File_Copied](/images/fileCopied.jpg)
 
 Below is the screenshot of Java installed on VM
 
-![JRE_VM](.\images\JREinVM.jpg)
+![JRE_VM](/images/JREinVM.jpg)
 
 And request started coming in...
 
-![Load_coming](.\images\LoadStarted.jpg)
+![Load_coming](/images/LoadStarted.jpg)
 
 Over the period of time...
 
-![Execution](.\images\QueryExecutionStatus.jpg)
+![Execution](/images/QueryExecutionStatus.jpg)
 
 VM cpu usage....
 
-![VM_CPU](.\images\CPU_VM.jpg)
+![VM_CPU](/images/CPU_VM.jpg)
 
 Data warehouse unit usgae....
 
-![DWU](.\images\DWU.jpg)
+![DWU](/images/DWU.jpg)
 
 Powershell script execution ends...
 
-![PWScripts](.\images\PowerShellOutput.jpg)
+![PWScripts](/images/PowerShellOutput.jpg)
 
 
 
@@ -276,7 +276,7 @@ Powershell script execution ends...
 
 Notice all queries executes under smallrc. This is a default resource class in Azure Synapse Data warehouse. The memory allocation for smallrc is 25% (based on the service level). More information about setting up different resource class is explained [here](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/resource-classes-for-workload-management). This way we can associate different member (based on priority or role in organnization) in different resource class.
 
-![Workgroup_Allocation](\Images\ResourceAllocation.jpg)
+![Workgroup_Allocation](/images/ResourceAllocation.jpg)
 
 
 ## Analyse in PBI
