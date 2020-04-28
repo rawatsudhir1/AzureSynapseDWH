@@ -120,7 +120,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
 ![JmxStorage](/images/JMXStorage.jpg)
 
-*Note:- Using two load test script which will be executed from East US and West US
+**Note**:- Load test scripts which will be executed from East US and West US
 
     4) Upload below PowerShell script in **scripts** container. Below scripts will be executed in order once Azure VM is created.  
 
