@@ -128,12 +128,12 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
     4.1 **swinstall1.ps1**:- File store under .\Scripts\. This script will install chocolatey software management tool in VM. Once chocolatey installed sucecssfully then it will call next script. 
 
-        ```powershell
+```powershell
 
-            Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
         
-            .\swInstall2.ps1
-        ```
+.\swInstall2.ps1
+```
  
     4.2 **swinstall2.ps1**:- File store under .\Scripts\. This script will install openjdk. SQL JDBC driver needs Java 14 runtime hence install openjdk. Next is to install azcopy (version 10). Once installtion completed succesfully them it will call next script. 
 
@@ -174,7 +174,7 @@ The next step is to setup Azure VM in different regions, install software, confi
 Below is the extract from **.\ClientSide_Scripts\ExecuteScriptMain.ps1** file.
 
     ```powershell
-    
+
     <# Block 1 :- Connet to Azure Subscription #>
         Connect-AzAccount
         Add-AzureAccount <#Selet account if you have multiple accounts in one subscription#> 
@@ -239,7 +239,7 @@ Below is the extract from **.\ClientSide_Scripts\ExecuteScriptMain.ps1** file.
     <# End of Block 5 #>
 
     <# OPTIONAL Remove Resource Group Once perf testing is done.#> 
-    Remove-AzResourceGroup -Name "sudhirawDWH"
+    Remove-AzResourceGroup -Name "XXXXXXX"
     <# END #>
 
     ```
