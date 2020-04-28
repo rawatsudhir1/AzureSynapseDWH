@@ -137,33 +137,31 @@ Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManage
  
     4.2 **swinstall2.ps1**:- File store under .\Scripts\. This script will install openjdk. SQL JDBC driver needs Java 14 runtime hence install openjdk. Next is to install azcopy (version 10). Once installtion completed succesfully them it will call next script. 
 
-        ```powershell
+```powershell
 
-            Set-ExecutionPolicy Bypass -Scope Process -Force;
-            choco feature enable -n=allowGlobalConfirmation;
-            choco install openjdk -y;
-            choco install azcopy10 -y;
-        
-            .\MoveAJmeter.ps1
-        ```
+Set-ExecutionPolicy Bypass -Scope Process -Force;
+choco feature enable -n=allowGlobalConfirmation;
+choco install openjdk -y;
+choco install azcopy10 -y;
+.\MoveAJmeter.ps1
+```
 
     **4.3** MoveAJmeter.ps1:- File store under .\Scripts\. This script will copy Apache Jmeter from Axure Blob storage to C drive in Azure VM. Once package is copied it will call next script.  
 
-        ```powershell
+```powershell
 
-            azcopy copy "https://XXXXXXX.blob.core.windows.net/ajmeter?SHARED_ACCESS_SIGNATURE" "C:\" --recursive=true ;
-            
-            .\Moveloadtest.ps1
-        ```
+azcopy copy "https://XXXXXXX.blob.core.windows.net/ajmeter?SHARED_ACCESS_SIGNATURE" "C:\" --recursive=true ;
+.\Moveloadtest.ps1
+```
 
     **4.4** Moveloadtest.ps1:- File store under .\Scripts\. This script will copy 
 
-        ```powershell
+```powershell
 
-            azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/EastLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;
+azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/EastLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;
             
-            azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/WestLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;  
-        ```
+azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/WestLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;  
+```
 
 ![Scripts_storage](/images/Script_Storage.jpg)
 
