@@ -128,7 +128,8 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
     4.1 **swinstall1.ps1**:- File store under .\Scripts\. This script will install chocolatey software management tool in VM. Once chocolatey installed sucecssfully then it will call next script. 
 
-        ```
+        ```powershell
+
             Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
         
             .\swInstall2.ps1
@@ -136,7 +137,8 @@ Let's move artefacts in Azure blob storage. Do sequentially.
  
     4.2 **swinstall2.ps1**:- File store under .\Scripts\. This script will install openjdk. SQL JDBC driver needs Java 14 runtime hence install openjdk. Next is to install azcopy (version 10). Once installtion completed succesfully them it will call next script. 
 
-        ```
+        ```powershell
+
             Set-ExecutionPolicy Bypass -Scope Process -Force;
             choco feature enable -n=allowGlobalConfirmation;
             choco install openjdk -y;
@@ -147,7 +149,8 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
     **4.3** MoveAJmeter.ps1:- File store under .\Scripts\. This script will copy Apache Jmeter from Axure Blob storage to C drive in Azure VM. Once package is copied it will call next script.  
 
-        ```
+        ```powershell
+
             azcopy copy "https://XXXXXXX.blob.core.windows.net/ajmeter?SHARED_ACCESS_SIGNATURE" "C:\" --recursive=true ;
             
             .\Moveloadtest.ps1
@@ -155,7 +158,8 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
     **4.4** Moveloadtest.ps1:- File store under .\Scripts\. This script will copy 
 
-        ```
+        ```powershell
+
             azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/EastLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;
             
             azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/WestLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;  
@@ -169,7 +173,8 @@ The next step is to setup Azure VM in different regions, install software, confi
 
 Below is the extract from **.\ClientSide_Scripts\ExecuteScriptMain.ps1** file.
 
-    ```
+    ```powershell
+    
     <# Block 1 :- Connet to Azure Subscription #>
         Connect-AzAccount
         Add-AzureAccount <#Selet account if you have multiple accounts in one subscription#> 
