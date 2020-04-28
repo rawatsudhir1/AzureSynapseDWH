@@ -65,66 +65,68 @@ Download Apache Jmeter (version 5.2.1) from [here](http://jmeter.apache.org/down
 
 By deafult Apache Jmeter don't include JDBC driver to connect to Azure Synapse Data warehouse. Let's download the JDBC driver.  
 
-        1) Download [JDBC driver](https://docs.microsoft.com/en-us/sql/connect/jdbc/system-requirements-for-the-jdbc-driver?view=sql-server-ver15)  
-        2) Unzip and copy **smssql-jdbc-8.2.2.jre13.jar** file 
-        3) Paste mssql-jdbc-8.2.2.jre13.jar file under \apache-jmeter-5.2.1\lib\
+1) Download [JDBC driver](https://docs.microsoft.com/en-us/sql/connect/jdbc/system-requirements-for-the-jdbc-driver?view=sql-server-ver15)  
+
+2) Unzip and copy **smssql-jdbc-8.2.2.jre13.jar** file 
+
+3) Paste mssql-jdbc-8.2.2.jre13.jar file under \apache-jmeter-5.2.1\lib\
 
 ![JDBC_Lib_File](/images/SQLJDBCDriver.jpg)
 
 ## Build Java Management Extension (aka jmx) file
 
-    1) Open Apache Jmeter UI by clicking jmeter.bat under \apache-jmeter-5.2.1\bin\
+1) Open Apache Jmeter UI by clicking jmeter.bat under \apache-jmeter-5.2.1\bin\
 
 ![AJmeter](/images/JmeterBatch.jpg)
 
-    2) Click **Add** -> **Threads (Users)** -> **Thread Group**
+2) Click **Add** -> **Threads (Users)** -> **Thread Group**
 
 ![AddThread](/images/AMeterAddThread.jpg)
 
-    3) Provide **Number of Threads (users)** . Add number of users you are expecting in future. Provide **Ramp-up period (seconds)** menaing how much time Apache jmeter takes to spin up number of threads(user).  Also, provide **Loop Count** define number of times test repeat.   
+3) Provide **Number of Threads (users)** . Add number of users you are expecting in future. Provide **Ramp-up period (seconds)** menaing how much time Apache jmeter takes to spin up number of threads(user).  Also, provide **Loop Count** define number of times test repeat.   
 
 ![JDBC_Thread](/images/JDBCThreadConfigured.jpg)
 
 
-    4) Add JDBC connection. Click **Add** -> **Config Element** -> **JDBC Connection Configuration. 
+4) Add JDBC connection. Click **Add** -> **Config Element** -> **JDBC Connection Configuration. 
 
 ![JDBC_Connection](/images/AmeterConnection.jpg)
 
-    5) Add Azure Synapse Data warehouse connection value. Provide **Variable Name for created pool** which we created in earlier step. Provide Data warehouse connection value in **Database Connection Configuration** 
+5) Add Azure Synapse Data warehouse connection value. Provide **Variable Name for created pool** which we created in earlier step. Provide Data warehouse connection value in **Database Connection Configuration** 
 
 ![JDBC_Conn_Added](/images/JDBCConnection.jpg)
 
-    6) Create JDBC request. Righ click on thread group. Click **Add** -> **Sampler** -> **JDBC Request**. Provide **Variable Name of Pool declared...** name created in earlier step. Provide **SQL Query** to be execute against data warehouse.
+6) Create JDBC request. Righ click on thread group. Click **Add** -> **Sampler** -> **JDBC Request**. Provide **Variable Name of Pool declared...** name created in earlier step. Provide **SQL Query** to be execute against data warehouse.
 
 ![JDBC_request](/images/JDBCRequest.jpg)
 
-    7) Create report for each request execution. Let's add **View Results Tree**
+7) Create report for each request execution. Let's add **View Results Tree**
 
 ![Add_report](/images/AddResult.jpg)
 
-    8) Create multiple JDBC request (with different queries). A sample jmx file is located at \Scripts\SampleLoadDef.jmx. Also sql query are located at \Scripts\SampleQuery.txt 
+8) Create multiple JDBC request (with different queries). A sample jmx file is located at \Scripts\SampleLoadDef.jmx. Also sql query are located at \Scripts\SampleQuery.txt 
 
 ## Move scripts to Azure storage
 
 Let's move artefacts in Azure blob storage. Do sequentially.
 
-    1) Create Azure blob storage and three container under it. **1) AJmeter** to store Apache Jmeter package. **2) loadtestdef** to store script file and **3) scripts**.
+1) Create Azure blob storage and three container under it. **1) AJmeter** to store Apache Jmeter package. **2) loadtestdef** to store script file and **3) scripts**.
 
 ![Storage](/images/StorageContainer.jpg)
 
-    2) AJmeter:- Use [azcopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to move Apache Jmeter from local drive to Azure blob storage. 
+2) AJmeter:- Use [azcopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to move Apache Jmeter from local drive to Azure blob storage. 
 
 ![Jmeter_Storage](/images/StorageAJmeter.jpg)
 
-    3) Copy jmx files created in earlier steps under **loadtestdef** container.
+3) Copy jmx files created in earlier steps under **loadtestdef** container.
 
 ![JmxStorage](/images/JMXStorage.jpg)
 
 **Note**:- Load test scripts which will be executed from East US and West US
 
-    4) Upload below PowerShell script in **scripts** container. Below scripts will be executed in order once Azure VM is created.  
+4) Upload below PowerShell script in **scripts** container. Below scripts will be executed in order once Azure VM is created.  
 
-        4.1) swinstall1.ps1:- File store under .\Scripts\. This script will install chocolatey software management tool in VM. Once chocolatey installed sucecssfully then it will call next script. 
+    4.1) swinstall1.ps1:- File store under .\Scripts\. This script will install chocolatey software management tool in VM. Once chocolatey installed sucecssfully then it will call next script. 
 
         ```
             Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
@@ -133,7 +135,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
  
         ```
  
-        4.2)swinstall2.ps1:- File store under .\Scripts\. This script will install openjdk. SQL JDBC driver needs Java 14 runtime hence install openjdk. Next is to install azcopy (version 10). Once installtion completed succesfully them it will call next script. 
+    4.2)swinstall2.ps1:- File store under .\Scripts\. This script will install openjdk. SQL JDBC driver needs Java 14 runtime hence install openjdk. Next is to install azcopy (version 10). Once installtion completed succesfully them it will call next script. 
 
         ```
             Set-ExecutionPolicy Bypass -Scope Process -Force;
@@ -145,7 +147,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
         ```
 
-        4.3) MoveAJmeter.ps1:- File store under .\Scripts\. This script will copy Apache Jmeter from Axure Blob storage to C drive in Azure VM. Once package is copied it will call next script.  
+    4.3) MoveAJmeter.ps1:- File store under .\Scripts\. This script will copy Apache Jmeter from Axure Blob storage to C drive in Azure VM. Once package is copied it will call next script.  
 
         ```
             azcopy copy "https://XXXXXXX.blob.core.windows.net/ajmeter?SHARED_ACCESS_SIGNATURE" "C:\" --recursive=true ;
@@ -154,7 +156,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
         ```
 
-        4.4) Moveloadtest.ps1:- File store under .\Scripts\. This script will copy 
+    4.4) Moveloadtest.ps1:- File store under .\Scripts\. This script will copy 
 
         ```
             azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/EastLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;
@@ -162,6 +164,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
             azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/WestLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;  
 
         ```
+
 ![Scripts_storage](/images/Script_Storage.jpg)
 
 ## Execute work load
