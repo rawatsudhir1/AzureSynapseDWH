@@ -110,23 +110,23 @@ By deafult Apache Jmeter don't include JDBC driver to connect to Azure Synapse D
 
 Let's move artefacts in Azure blob storage. Do sequentially.
 
-1) Create Azure blob storage and three container under it. **1) AJmeter** to store Apache Jmeter package. **2) loadtestdef** to store script file and **3) scripts**.
+1. Create Azure blob storage and three container under it. **1) AJmeter** to store Apache Jmeter package. **2) loadtestdef** to store script file and **3) scripts**.
 
 ![Storage](/images/StorageContainer.jpg)
 
-2) AJmeter:- Use [azcopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to move Apache Jmeter from local drive to Azure blob storage. 
+2. AJmeter:- Use [azcopy](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) to move Apache Jmeter from local drive to Azure blob storage. 
 
 ![Jmeter_Storage](/images/StorageAJmeter.jpg)
 
-3) Copy jmx files created in earlier steps under **loadtestdef** container.
+3. Copy jmx files created in earlier steps under **loadtestdef** container.
 
 ![JmxStorage](/images/JMXStorage.jpg)
 
 **Note**:- Load test scripts which will be executed from East US and West US
 
-4) Upload below PowerShell script in **scripts** container. Below scripts will be executed in order once Azure VM is created.  
+4. Upload below PowerShell script in **scripts** container. Below scripts will be executed in order once Azure VM is created.  
 
-    4.1) swinstall1.ps1:- File store under .\Scripts\. This script will install chocolatey software management tool in VM. Once chocolatey installed sucecssfully then it will call next script. 
+    4.1 swinstall1.ps1:- File store under .\Scripts\. This script will install chocolatey software management tool in VM. Once chocolatey installed sucecssfully then it will call next script. 
 
         ```
             Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'));
@@ -135,7 +135,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
  
         ```
  
-    4.2)swinstall2.ps1:- File store under .\Scripts\. This script will install openjdk. SQL JDBC driver needs Java 14 runtime hence install openjdk. Next is to install azcopy (version 10). Once installtion completed succesfully them it will call next script. 
+    4.2 swinstall2.ps1:- File store under .\Scripts\. This script will install openjdk. SQL JDBC driver needs Java 14 runtime hence install openjdk. Next is to install azcopy (version 10). Once installtion completed succesfully them it will call next script. 
 
         ```
             Set-ExecutionPolicy Bypass -Scope Process -Force;
@@ -147,7 +147,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
         ```
 
-    4.3) MoveAJmeter.ps1:- File store under .\Scripts\. This script will copy Apache Jmeter from Axure Blob storage to C drive in Azure VM. Once package is copied it will call next script.  
+    4.3 MoveAJmeter.ps1:- File store under .\Scripts\. This script will copy Apache Jmeter from Axure Blob storage to C drive in Azure VM. Once package is copied it will call next script.  
 
         ```
             azcopy copy "https://XXXXXXX.blob.core.windows.net/ajmeter?SHARED_ACCESS_SIGNATURE" "C:\" --recursive=true ;
@@ -156,7 +156,7 @@ Let's move artefacts in Azure blob storage. Do sequentially.
 
         ```
 
-    4.4) Moveloadtest.ps1:- File store under .\Scripts\. This script will copy 
+    4.4 Moveloadtest.ps1:- File store under .\Scripts\. This script will copy 
 
         ```
             azcopy copy "https://XXXXX.blob.core.windows.net/loadtestdef/EastLoadDefinition.jmx?SHARED_ACCESS_SIGNATURE" "C:\ajmeter\apache-jmeter-5.2.1\bin" --recursive=true ;
