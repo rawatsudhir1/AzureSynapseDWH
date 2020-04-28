@@ -1,0 +1,45 @@
+SELECT OrderDateKey, SUM(SalesAmount) AS TotalSales
+FROM FactInternetSales
+GROUP BY OrderDateKey
+ORDER BY OrderDateKey
+OPTION (LABEL = 'EastUS 1 Total sales through internet');
+
+
+SELECT OrderDateKey, SUM(SalesAmount) AS TotalSales
+FROM FactInternetSales
+WHERE OrderDateKey > '20020801'
+GROUP BY OrderDateKey
+ORDER BY OrderDateKey
+OPTION (LABEL = 'EASTUS 2 Total sales through internet after 20020801');
+
+SELECT ResellerName, SUM(SalesAmount) AS TotalSales
+FROM FactResellerSales FRS
+JOIN DimReseller  DR
+ON FRS.ResellerKey = DR.ResellerKey
+GROUP BY ResellerName
+ORDER BY ResellerName
+OPTION (LABEL = 'EASTUS 3 Total sales through reseller');
+
+SELECT ResellerName,BusinessType,AddressLine1
+FROM DimReseller 
+WHERE ResellerName like '%Cycle%'
+OPTION (LABEL = 'EASTUS 4 List of reseller name');
+
+SELECT [SalesTerritoryCountry]
+,      [SalesTerritoryRegion]
+,      SUM(SalesAmount)             AS TotalSalesAmount
+FROM  dbo.factInternetSales s
+JOIN  dbo.DimSalesTerritory t       ON s.SalesTerritoryKey       = t.SalesTerritoryKey
+GROUP BY ROLLUP (
+                        [SalesTerritoryCountry]
+                ,       [SalesTerritoryRegion]
+                )
+OPTION (LABEL = 'EASTUS 5 Territory wise sales');
+
+
+
+
+
+
+
+
