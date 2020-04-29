@@ -10,10 +10,10 @@ The one feature I like most about Azure synapse is to provide one interface to d
 
 Any organization who is ready to spin Azure service always curious of
 
-    1) Are we choosing right sku for our requirement? 
-    2) How performant azure service will be? 
-    3) Will sku enough to handle the load? 
-    4) What will be the impact on allocated resources? 
+    1) Are we choosing right sku for current and future workload? 
+    2) Are we utilizing the resources well? 
+    3) What about the latency? 
+    4) Based on upcoming request, what will be the impact on allocated resources? 
     5) How to make sure quries are performing well on DWH design? 
     6) How to build baseline matrix?  
 
@@ -41,7 +41,7 @@ The key elements of the architecture :
 
 **Azure Data Factory** : - A cloud based data integration service make data movement across different location with ease, fast and securely. You can build data pipeline within no time and connect to more than 90+ sources.  Please check [here](https://docs.microsoft.com/en-us/azure/data-factory/introduction) for more information.
 
-**Azure Blob Storage** : -  
+**Azure Blob Storage** : - A low cost, high performant storage solution on cloud. Use different tools like azcopy, Azure blob storage explorer, ADF to store unstruture data. Please click [here](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-overview) for more information. 
 
 **Apache Jmeter** : - [Apache Jemter](https://jmeter.apache.org/) is a open source solution to perform load test and measure performance. Apache Jemeter is a java based 100% open source technology. Thi tool can help in generating the expected load, perform action and provide various reports to evaluate the performance of the targeted application.
 
@@ -271,11 +271,44 @@ Powershell script execution ends...
 
 ## Investigate result over dashboard  
 
-Notice all queries executes under smallrc. This is a default resource class in Azure Synapse Data warehouse. The memory allocation for smallrc is 25% (based on the service level). More information about setting up different resource class is explained [here](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/resource-classes-for-workload-management). This way we can associate different member (based on priority or role in organnization) in different resource class.
+Let's investigate from the dashboard in Azure portal.
+
+![output](/images/Problem_monitor.jpg)
+
+By looking onto the dashboard it's clear that service is not utilizing the allocated resources. The service is utilizing around 22% of total number of DWU selected. The queries getting queued and waiting for resources to be availble. Though 75% is still unused resources. Why this is happening and how to solve it?
+
+Notice all queries executes under smallrc workload group. Workload group in Azure Synapse DWH enables to reserve resources for an defined workload group. We can define different workload group like "business_group", "Q&A_group", "Dev_group", "normal_user" etc. Setting importance to each workload group define the priority given to individual workload group. So query received from "business_group" workload group gets higher priority than "normal_user" workload group. Apart from definining resource and importance we can define query timeout as well. This will help to kill long running queries in production.
+
+In this case, we didn't plan for workload group and went ahead with default workload group. There were 4 workload group defined by deault (smallrc, mediumrc, largerc and xlargerc). The memory allocation for smallrc is 25% (based on the service level).  By this allocation Azure Synapse DWH utilized 88% (or 100%) of allocated resources.
 
 ![Workgroup_Allocation](/images/ResourceAllocation.jpg)
 
+**Leason learned** :- Plan and setup workload group.
+
+More information about setting up different resource class is explained [here](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/resource-classes-for-workload-management). 
 
 ## Analyse in PBI
 
-## Anomaly detection
+ PowerBI has connector to Azure Synapse DWH. After successful connection, query
+ **sys.dm_pdw_exec_requests** system table. This table contains information about current or recent queries received. There is another table **sys.dm_pdw_request_steps** provides detail information about the query execution. 
+
+Below is the PBI dashboard to analyse the queries execution on server.
+
+![PBI_Summary](\images\QueryExecutedReport.jpg) 
+
+![PBI_Qexecution](\images\QuerySummary.jpg)
+
+![PBI_QSummary](\Images\QueryDetails.jpg)
+
+Some query ran frequently on the server and took similar time. However with Azure synapse DWH let's increase the 
+
+Result Cache
+
+Materialize view
+
+## Apache Jmeter Report
+
+![AJmetere_Latency](\images\AJmeter.jpg)
+
+Latency:-  latency from just before sending the request to just after the first response has been received.
+
