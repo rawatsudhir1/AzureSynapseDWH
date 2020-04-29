@@ -294,11 +294,11 @@ More information about setting up different resource class is explained [here](h
 
 Below is the PBI dashboard to analyse the queries execution on server.
 
-![PBI_Summary](\images\QueryExecutedReport.jpg) 
+![PBI_Summary](/images/QueryExecutedReport.jpg) 
 
-![PBI_Qexecution](\images\QuerySummary.jpg)
+![PBI_Qexecution](/images/QuerySummary.jpg)
 
-![PBI_QSummary](\Images\QueryDetails.jpg)
+![PBI_QSummary](/Images/QueryDetails.jpg)
 
 Some query ran frequently on the server and took similar time. However with Azure synapse DWH let's increase the 
 
