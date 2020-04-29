@@ -300,11 +300,70 @@ Below is the PBI dashboard to analyse the queries execution on server.
 
 ![PBI_QSummary](/Images/QueryDetails.jpg)
 
-Some query ran frequently on the server and took similar time. However with Azure synapse DWH let's increase the 
+Some queries with same or no filter run frequently on the server. Each time query completion takes let's say x time. Think about query outcome cache in such scenario to speed the query performance. Can any feature in Azure Synapse DWH help in reducing the time for similar data which changes infrequently? The answer is Yes. Azure synapse DWH has two features 1) Result Cache and 2) Materialize view. 
 
-Result Cache
+**Result cache** needs same query everytime which is used to built the cache also result should apply to entire query. Query result cache in SQL Pool and available even pause and resume DWH. Enable result cache at database or session level.
 
-Materialize view
+```sql
+SELECT [SalesTerritoryCountry]
+,      [SalesTerritoryRegion]
+,      SUM(SalesAmount)             AS TotalSalesAmount
+FROM  dbo.factInternetSales s
+JOIN  dbo.DimSalesTerritory t       ON s.SalesTerritoryKey       = t.SalesTerritoryKey
+GROUP BY ROLLUP (
+                        [SalesTerritoryCountry]
+                ,       [SalesTerritoryRegion]
+                )
+OPTION (LABEL = 'ResultCache session level on');
+
+--Total execution time: 00:00:02.300
+
+SELECT  *
+FROM    sys.dm_pdw_exec_requests
+WHERE   [label] LIKE '%ResultCache session level off%' and request_id='QID44845'
+
+```
+
+![Miss_Cache](/images/Miss_Cache.jpg)
+
+After RESULT_SET_CACHING ON, first query took around 00:00:02.325, similar query next time hits cache and completes in 00:00:00.734.
+
+```sql
+
+SELECT [SalesTerritoryCountry]
+,      [SalesTerritoryRegion]
+,      SUM(SalesAmount)             AS TotalSalesAmount
+FROM  dbo.factInternetSales s
+JOIN  dbo.DimSalesTerritory t       ON s.SalesTerritoryKey       = t.SalesTerritoryKey
+GROUP BY ROLLUP (
+                        [SalesTerritoryCountry]
+                ,       [SalesTerritoryRegion]
+                )
+OPTION (LABEL = 'ResultCache session level on');
+
+--Total execution time: 00:00:02.325
+
+SELECT [SalesTerritoryCountry]
+,      [SalesTerritoryRegion]
+,      SUM(SalesAmount)             AS TotalSalesAmount
+FROM  dbo.factInternetSales s
+JOIN  dbo.DimSalesTerritory t       ON s.SalesTerritoryKey       = t.SalesTerritoryKey
+GROUP BY ROLLUP (
+                        [SalesTerritoryCountry]
+                ,       [SalesTerritoryRegion]
+                )
+OPTION (LABEL = 'ResultCache session level on');
+
+--Total execution time: 00:00:00.734
+
+```
+
+![Miss_Cache](/images/CacheHit.jpg)
+
+
+
+**Materialize View**  
+
 
 ## Apache Jmeter Report
 
