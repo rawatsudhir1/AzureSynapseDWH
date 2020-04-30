@@ -375,9 +375,10 @@ OPTION (LABEL = 'ResultCache session level on');
 Latency, connection or any other errors received at client side will be store in csv file (Azure VM c:\ drive as that's what configured while setting up jmx file).   
 
 ![AJmetere_Latency](/images/AJmeter.jpg)
+ 
 
-Finally [here](https://docs.microsoft.com/en-us/learn/paths/implement-sql-data-warehouse/) is the learning path to learn more about Azure Synapse Analytics. 
+I will add more soon in future but for now thanks for reading till here :smiley:
 
-Thanks for reading till here :smiley:
+Finally [here](https://docs.microsoft.com/en-us/learn/paths/implement-sql-data-warehouse/) is the learning path to learn more about Azure Synapse Analytics.
 
 **Eat Healthy, Stay Fit and Keep Learning**
