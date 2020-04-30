@@ -318,7 +318,7 @@ OPTION (LABEL = 'ResultCache session level on');
 
 SELECT  *
 FROM    sys.dm_pdw_exec_requests
-WHERE   [label] LIKE '%ResultCache session level off%' and request_id='QID44845'
+WHERE   request_id='QID44845'
 
 ```
 
