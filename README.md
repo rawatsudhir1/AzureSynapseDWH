@@ -298,11 +298,11 @@ Below is the PBI dashboard to analyse the queries execution on server.
 
 ![PBI_Qexecution](/images/QuerySummary.jpg)
 
-![PBI_QSummary](/Images/QueryDetails.jpg)
+![PBI_Qdetails](/images/QueryDetails.jpg)
 
 Some queries with same or no filter run frequently on the server. Each time query completion takes let's say x time. Think about query outcome cache in such scenario to speed the query performance. Can any feature in Azure Synapse DWH help in reducing the time for similar data which changes infrequently? The answer is Yes. Azure synapse DWH has two features 1) Result Cache and 2) Materialize view. 
 
-**Result cache** needs same query everytime which is used to built the cache also result should apply to entire query. Query result cache in SQL Pool and available even pause and resume DWH. Enable result cache at database or session level.
+**Result cache** hits if receive same query which is used to built the cache also result should apply to entire query. Query result cache in SQL Pool. It's available even pause and resume DWH. Enable result cache allow subsequent query execute faster.
 
 ```sql
 SELECT [SalesTerritoryCountry]
@@ -358,16 +358,15 @@ OPTION (LABEL = 'ResultCache session level on');
 
 ```
 
-![Miss_Cache](/images/CacheHit.jpg)
+![Hit_Cache](/images/CacheHit.jpg)
 
+**Materialize View** :- use when there were multiple joins and complex data computation presence in the query. Materialize view stores the result in logical tables. So there will be extra storage taken by this feature and provides result faster. This is the main difference between standard and materialize view. As compare to Result Cache, with Materialize view you can get subset of result.
 
-
-**Materialize View**  
-
+**Leason learned** Plan for Result cache and/or Materialize view if possible. 
 
 ## Apache Jmeter Report
 
-![AJmetere_Latency](\images\AJmeter.jpg)
+![AJmetere_Latency](/images/AJmeter.jpg)
 
 Latency:-  latency from just before sending the request to just after the first response has been received.
 
