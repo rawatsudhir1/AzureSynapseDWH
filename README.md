@@ -244,7 +244,7 @@ Below is the screenshot of Java installed on VM
 
 ![JRE_VM](/images/JREinVM.jpg)
 
-And request started coming in...
+Once you execute block-5 in Powershell, after sometime notice request started coming in...
 
 ![Load_coming](/images/LoadStarted.jpg)
 
@@ -263,8 +263,6 @@ Data warehouse unit usgae....
 Powershell script execution ends...
 
 ![PWScripts](/images/PowerShellOutput.jpg)
-
-
 
 
 # Analyse the Test Results
