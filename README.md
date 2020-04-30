@@ -17,6 +17,8 @@ Any organization who is ready to spin Azure service always curious of
     5) How to make sure quries are performing well on DWH design? 
     6) How to build baseline matrix?  
 
+    and may be more...
+
 Well, one of the ways is to monitor (and setup alerts) the service on production environment and adjust the sku. However this may impact the user experience and become hard practice to follow.
 
 This blog post try to overcome this problem in advance to avoid any surprises on production environment. The focus will be on building a framework to simulate the load with multiple queries and get answers for above questions.
