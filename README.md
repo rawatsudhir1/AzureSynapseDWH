@@ -302,6 +302,8 @@ Some queries with same or no filter run frequently on the server. Each time quer
 
 **Result cache** :- Enable result cache allow subsequent query execute faster. It hits if receive same query which is used to built the cache also result should apply to entire query. Query result cache in SQL Pool and it's available even pause and resume DWH. 
 
+Below quries executed in **Azure Data Studio** to test the Result cache feature.
+
 ```sql
 SELECT [SalesTerritoryCountry]
 ,      [SalesTerritoryRegion]
