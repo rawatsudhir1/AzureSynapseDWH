@@ -379,6 +379,11 @@ Latency, connection or any other errors received at client side will be store in
 
 I will add more soon in future but for now thanks for reading till here :smiley:
 
-Finally [here](https://docs.microsoft.com/en-us/learn/paths/implement-sql-data-warehouse/) is the learning path to learn more about Azure Synapse Analytics.
+Finally 
+[here](https://docs.microsoft.com/en-us/learn/paths/implement-sql-data-warehouse/) is the learning path to learn more about Azure Synapse Analytics.
+
+[here](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-how-to-manage-and-monitor-workload-importance) to manage and monitor workload performance.
+
+[here](https://docs.microsoft.com/en-us/azure/synapse-analytics/overview-cheat-sheet) for cheat sheet.
 
 **Eat Healthy, Stay Fit and Keep Learning**
