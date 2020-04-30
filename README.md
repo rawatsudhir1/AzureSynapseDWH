@@ -302,7 +302,7 @@ Below is the PBI dashboard to analyse the queries execution on server.
 
 Some queries with same or no filter run frequently on the server. Each time query completion takes let's say x time. Think about query outcome cache in such scenario to speed the query performance. Can any feature in Azure Synapse DWH help in reducing the time for similar data which changes infrequently? The answer is Yes. Azure synapse DWH has two features 1) Result Cache and 2) Materialize view. 
 
-**Result cache** hits if receive same query which is used to built the cache also result should apply to entire query. Query result cache in SQL Pool. It's available even pause and resume DWH. Enable result cache allow subsequent query execute faster.
+**Result cache** :- Enable result cache allow subsequent query execute faster. It hits if receive same query which is used to built the cache also result should apply to entire query. Query result cache in SQL Pool and it's available even pause and resume DWH. 
 
 ```sql
 SELECT [SalesTerritoryCountry]
@@ -343,6 +343,10 @@ OPTION (LABEL = 'ResultCache session level on');
 
 --Total execution time: 00:00:02.325
 
+--ALTER DATABASE XXXXXXXX --at master DB level
+
+--SET RESULT_SET_CACHING ON; --at user DB level
+
 SELECT [SalesTerritoryCountry]
 ,      [SalesTerritoryRegion]
 ,      SUM(SalesAmount)             AS TotalSalesAmount
@@ -360,13 +364,18 @@ OPTION (LABEL = 'ResultCache session level on');
 
 ![Hit_Cache](/images/CacheHit.jpg)
 
-**Materialize View** :- use when there were multiple joins and complex data computation presence in the query. Materialize view stores the result in logical tables. So there will be extra storage taken by this feature and provides result faster. This is the main difference between standard and materialize view. As compare to Result Cache, with Materialize view you can get subset of result.
+**Materialize View** :- Use when there were multiple joins and complex data computation presence in the query. Materialize view stores the result in logical tables. So there will be extra storage taken by this feature and hence provides result faster. This is the main difference between standard and materialize view. As compare to Result Cache, with Materialize view we can get subset of view.
 
-**Leason learned** Plan for Result cache and/or Materialize view if possible. 
+**Leason learned** Plan for Result cache and/or Materialize view if possible to speed up query performance. 
 
 ## Apache Jmeter Report
 
+Latency, connection or any other errors received at client side will be store in csv file (Azure VM c:\ drive as that's what configured while setting up jmx file).   
+
 ![AJmetere_Latency](/images/AJmeter.jpg)
 
-Latency:-  latency from just before sending the request to just after the first response has been received.
+Finally [here](https://docs.microsoft.com/en-us/learn/paths/implement-sql-data-warehouse/) is the learning path to learn more about Azure Synapse Analytics. 
 
+Thanks for reading till here :smiley:
+
+**Eat Healthy, Stay Fit and Keep Learning**
