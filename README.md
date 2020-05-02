@@ -25,7 +25,7 @@ This blog post try to overcome this problem in advance to avoid any surprises on
 
 # Reference Architecture 
 
-In this end to end architecture, we'll simulate the load from different regions with different queries. The outcome will help us understand if we choose right sku and setup good DWH design like index, cache .  
+In this end to end architecture, we'll simulate the load from different regions with different queries. The outcome will help us understand if we choose right sku and setup good DWH design like table distribution, index, cache etc .  
 
 ![Ref_Arch](/images/RefArch.jpg)
 
@@ -59,7 +59,7 @@ Use [Microsoft Azure Portal](https://docs.microsoft.com/en-us/azure/synapse-anal
 
 ## Setup Data warehouse
 
-Once Azure Synapse DWH is setup, next step is to setup Data warehouse design and load data. One of the ways to consider is first move metadata like table, SP, index etc creation then leverage [Azure Data Factory](https://docs.microsoft.com/en-us/azure/data-factory/introduction) for data movement. I am using Adventureworks dwh which is provided as a sample.  
+Once Azure Synapse DWH is setup, next step is to setup Data warehouse design and load data. One of the ways to consider is first move metadata like table, SP, index etc creation then leverage [Azure Data Factory](https://docs.microsoft.com/en-us/azure/data-factory/introduction) for data movement. I am using Adventureworks dwh which is provided as a sample while creating Azure Synapse DWH.  
 
 ## Download and configure Apache Jmeter
 
