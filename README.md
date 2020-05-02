@@ -1,14 +1,14 @@
 # Azure Synapse Analytics (Data Warehouse)
 
-Over years I work on Azure data platform and I saw data services grows exponentially. The reasons are growth, new business requirement, limitation and challenges. There are many data services from storing csv files, tabular data, nosql data, graph data, column store, key-value etc. which helps different business to choose which is best for them. On Azure there are many other service for data orchestration, processing, AI and presenting the data. If dig further on any of the terminology one can find too many options. Sometime it confuses user but i feel you choose what's best for the problem and skill set organization have. Azure provide all and covers different persona in any organization. 
+Over years I worked on Azure data platform and I saw data services grows exponentially. The reasons are new business requirement, limitation, reduce time to market and challenges. There are many data services from storing csv files, tabular data, nosql data, graph data, column store, key-value etc. which helps different business to choose which is best for them. On Azure there are many other services for data orchestration, processing, AI and presenting the data. If dig further on any of the terminology one can find too many options. Sometime it confuses user but i feel you choose what's best for the problem and skill set organization have. Azure provide all and covers different persona in any organization. 
 
 Last year, Microsoft bought more capabilities to Azure SQL Data warehouse and named it as Azure synapse analytics. As of today (day I am writing this blog) it's under private preview. It's a limitless analytic services which bring data warehousing and big data analytic  capabilities together. It's beyond just seperating storage and compute.
 
-The one feature I like most about Azure synapse is to provide one interface to design end-end data life cycle.  
+However there are still some concerns from organizations before moving to production.   
 
 # Why
 
-Any organization who is ready to spin Azure service always curious of
+Any organization who is ready to spin Azure service always curious of performance, load, security etc. The story is no different with Data. With Azure Synapse DWH organization want to make sure they choose right skus and design to benefit customer and themselves. Any organization can come up with following questions 
 
     1) Are we choosing right sku for current and future workload? 
     2) Are we utilizing the resources well? 
@@ -296,10 +296,60 @@ Below is the PBI dashboard to analyse the queries execution on server.
 
 ![PBI_Summary](/images/QueryExecutedReport.jpg) 
 
+Look at the each query and time taken can help in identify the queries taking so much time. 
+
 ![PBI_Qexecution](/images/QuerySummary.jpg)
+
+Further drill down explains steps taken to prepare the resultset. 
 
 ![PBI_Qdetails](/images/QueryDetails.jpg)
 
+Investigate
+
+    1) Table Distribution
+    2) Partition stratergy
+    2) Index
+    3) Cache
+    4) Statistics
+
+### Table Distribution
+
+Generally, in DWH world there are two types of tables available 1) Dimension 2) Fact. 
+Fact table store information about transaction like sales. As per the dimensional modeelling fundameentals this type of table contains numerical value. Dimension table store information about dimension of facts. For example 
+
+Fact Table
+
+|ID     |Country|Sales|
+|-------|-------|-----|
+|1      |1      |5000 |
+|2      |4      |4000 |
+
+Dimenson Table
+
+|ID     |Country|Name |
+|-------|-------|-----|
+|1      |1      |US   |
+|2      |2      |IN   |
+|3      |3      |SIN  |
+|4      |4      |NZ   |
+
+There are three ways in [Table Distribution](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/massively-parallel-processing-mpp-architecture#distributions) by which a table is distributed in compute node. 
+
+    1) Hash distributed
+    2) Round-robin 
+    3) Replicated 
+
+In this blog we used sample database, the service by default applied hash distribution. However genral rule of thumb is to select **Replicated** distribution type when size of the table is low (generally dimensional table). **Hash distribution** provdes high performance for joins and aggregated queries. A hash alogrithm assign each row to the distribution. This will good for a table expecting high performaing queries (generally fact table). **Round robin** distribution will store a row in random fashion. Hence it will be good for loading data but not for queries. Hence it's good to use round robin distribution while staging the data.
+
+![Table_Distrinution](/images/Table_Distribution.jpg)
+
+### Partition Stratergy
+Partition allows rows to store in a range which allow query to find result quickly as compare to no partition. Use [Partition startergy](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-partition) to understand how partition can be benefit while loard and query. Also consideration to design partition.    
+
+### Index
+Index makes reading a table become faster. There are clustered, nonclustered,  clustered columnstore index and non-index you can define on a table in Azure synapse DWH. More information about benefits and designing index stratergy can be found [here](https://docs.microsoft.com/bs-latn-ba/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-index)
+
+### Cache
 Some queries with same or no filter run frequently on the server. Each time query completion takes let's say x time. Think about query outcome cache in such scenario to speed the query performance. Can any feature in Azure Synapse DWH help in reducing the time for similar data which changes infrequently? The answer is Yes. Azure synapse DWH has two features 1) Result Cache and 2) Materialize view. 
 
 **Result cache** :- Enable result cache allow subsequent query execute faster. It hits if receive same query which is used to built the cache also result should apply to entire query. Query result cache in SQL Pool and it's available even pause and resume DWH. 
@@ -376,14 +426,14 @@ Latency, connection or any other errors received at client side will be store in
 
 ![AJmetere_Latency](/images/AJmeter.jpg)
  
+Find below some more resources to know more  about Azure Synapse Analytics
 
-I will add more soon in future but for now thanks for reading till here :smiley:
-
-Finally 
 [here](https://docs.microsoft.com/en-us/learn/paths/implement-sql-data-warehouse/) is the learning path to learn more about Azure Synapse Analytics.
 
 [here](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-how-to-manage-and-monitor-workload-importance) to manage and monitor workload performance.
 
 [here](https://docs.microsoft.com/en-us/azure/synapse-analytics/overview-cheat-sheet) for cheat sheet.
+
+I will add more soon in future but for now thanks for reading till here :smiley:
 
 **Eat Healthy, Stay Fit and Keep Learning**
