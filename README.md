@@ -344,7 +344,7 @@ In this blog we used sample database, the service by default applied hash distri
 ![Table_Distrinution](/images/Table_Distribution.jpg)
 
 ### Partition Stratergy
-Partition allows rows to store in a range which allow query to find result quickly as compare to no partition. Use [Partition startergy](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-partition) to understand how partition can be benefit while loard and query. Also consideration to design partition.    
+Partition allows rows to store in a range which allow query to find result quickly as compare to no partition. Use [Partition startergy](https://docs.microsoft.com/en-us/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-partition) to understand how partition can be benefit while load and query. Also consideration to design partition.    
 
 ### Index
 Index makes reading a table become faster. There are clustered, nonclustered,  clustered columnstore index and non-index you can define on a table in Azure synapse DWH. More information about benefits and designing index stratergy can be found [here](https://docs.microsoft.com/bs-latn-ba/azure/synapse-analytics/sql-data-warehouse/sql-data-warehouse-tables-index)
