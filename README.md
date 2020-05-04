@@ -1,11 +1,11 @@
 # Azure Synapse Analytics (Data Warehouse)
 
-Over years I worked on Azure data platform and I saw data services grows exponentially. The reasons are new business requirement, limitation, reduce time to market and challenges. There are many data services from storing csv files, tabular data, nosql data, graph data, column store, key-value etc. which helps different business to choose which is best for them. On Azure there are many other services for data orchestration, processing, AI and presenting the data. If dig further on any of the terminology one can find too many options. Sometime it confuses user but i feel you choose what's best for the problem and skill set organization have. Azure provide all and covers different persona in any organization. 
+Over years I worked on Azure data platform and I saw data services grow exponentially. The reasons are new business requirements, limitations, reduced time to market and challenges. There are many data services for storing csv files, tabular data, nosql data, graph data, column store, key-value etc. which help different business to choose which is best for them. On Azure, there are many other services for data orchestration, processing, AI and presenting the data. If one digs further on any of the terminology one can find too many options.
 
-Last year, Microsoft bought more capabilities to Azure SQL Data warehouse and named it as Azure synapse analytics. As of today (day I am writing this blog) it's under private preview. It's a limitless analytic services which bring data warehousing and big data analytic  capabilities together. It's beyond just seperating storage and compute.
+Last year, Microsoft bought more capabilities to Azure SQL Data warehouse and named it as Azure synapse analytics. As of today (the day I am writing this blog) it's under private preview. It's provides data warehousing and big data analytic capabilities together. It's beyond just seperating storage and compute.
 
-However there are still some concerns from organizations before moving to production.   
-
+However there are still some concerns from organizations before moving to production.
+   
 # Why
 
 Any organization who is ready to spin Azure service always curious of performance, load, security etc. The story is no different with Data. With Azure Synapse DWH organization want to make sure they choose right skus and design to benefit customer and themselves. Any organization can come up with following questions 

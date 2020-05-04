@@ -63,6 +63,6 @@
 # End of Block 5
 
 # OPTIONAL Remove Resource Group Once perf testing is done. 
-    Remove-AzResourceGroup -Name "sudhirawDWH"
+    Remove-AzResourceGroup -Name "XXXXXXXX"
 # END
 
