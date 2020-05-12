@@ -310,7 +310,7 @@ Investigate
     2) Partition strategy
     2) Index
     3) Cache
-    4) Statistics
+    4) View
 
 ### Table Distribution
 
