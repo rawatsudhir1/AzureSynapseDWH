@@ -307,7 +307,7 @@ Further drill down explains steps taken to prepare the resultset.
 Investigate
 
     1) Table Distribution
-    2) Partition stratergy
+    2) Partition strategy
     2) Index
     3) Cache
     4) Statistics
